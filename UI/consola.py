@@ -1,5 +1,6 @@
 from Domain.rezervare import to_str
 from Logic.crud import add_rezervare, delete_rezervare, edit_rezervare
+from Logic.operatiuni import sort_rezervari, compute_sum_prices_per_name
 
 def print_meniu():
     print('''
@@ -57,10 +58,14 @@ def run_crud_ui(rezervari):
         id = input('Dati id-ul rezervarii: ')
         nume = input('Dati numele: ')
         clasa = input('Precizati tipul clasei: ')
-        pret = float(input('Dati pretul: '))
+        pret = input('Dati pretul: ')
         checkin_facut = input('Precizati daca a facut checkin: ')
-        add_rezervare(rezervari, id, nume, clasa, pret, checkin_facut)
-        print('Rezervarea a fost adaugata cu succes.')
+        try:
+            rezervari = add_rezervare(rezervari, id, nume, clasa, pret, checkin_facut)
+            print('Rezervarea a fost adaugata cu succes.')
+            return rezervari
+        except ValueError as ve:
+            print(ve)
 
     def handle_delete_rezervare_ui(rezervari):
         '''
@@ -69,8 +74,9 @@ def run_crud_ui(rezervari):
         :return:
         '''
         id = input('Dati id-ul rezervarii: ')
-        delete_rezervare(rezervari, id)
+        rezervari = delete_rezervare(rezervari, id)
         print('Rezervarea a fost stearsa cu succes.')
+        return rezervari
 
     def handle_edit_rezervare_ui(rezervari):
         '''
@@ -83,22 +89,26 @@ def run_crud_ui(rezervari):
         clasa = input('Precizati tipul clasei: ')
         pret = float(input('Dati pretul: '))
         checkin_facut = input('Precizati daca a facut checkin: ')
-        edit_rezervare(rezervari, id, nume, clasa, pret, checkin_facut)
-        print('Rezervarea a fost modificata cu succes.')
+        try:
+            rezervari = edit_rezervare(rezervari, id, nume, clasa, pret, checkin_facut)
+            print('Rezervarea a fost modificata cu succes.')
+            return rezervari
+        except ValueError as ve:
+            print(ve)
 
     while True:
         print_crud_meniu()
         cmd = input("Comanda: ")
         if cmd == '1':
-            handle_add_rezervare_ui(rezervari)
+            rezervari = handle_add_rezervare_ui(rezervari)
         elif cmd == '2':
-            handle_delete_rezervare_ui(rezervari)
+            rezervari = handle_delete_rezervare_ui(rezervari)
         elif cmd == '3':
-            handle_edit_rezervare_ui(rezervari)
+            rezervari = handle_edit_rezervare_ui(rezervari)
         elif cmd == '4':
             handle_show_all(rezervari)
         elif cmd == '5':
-            break
+            run_console(rezervari)
         else:
             print('Comanda invalida')
 
@@ -117,21 +127,40 @@ def run_operatiuni_ui(rezervari):
         '''
     pass
 
+    def handle_ordonare(rezervari):
+        '''
+        Ordonarea rezervărilor descrescător după preț.
+        :param rezervari: lista
+        :return:
+        '''
+        rezervari = sort_rezervari(rezervari)
+        print('Rezervarile au fost ordonate cu succes.')
+        return rezervari
+
+    def handle_suma(rezervari):
+        '''
+        Afișarea sumelor prețurilor pentru fiecare nume.
+        :param rezervari: lista
+        :return:
+        '''
+        print(compute_sum_prices_per_name(rezervari))
+
+
     while True:
         print_operatiuni_meniu()
         cmd = input("Comanda: ")
         if cmd == '1':
-            handle_mutare(rezervari)
+            rezervari = handle_mutare(rezervari)
         elif cmd == '2':
             pass
         elif cmd == '3':
             pass
         elif cmd == '4':
-            pass
+            rezervari = handle_ordonare(rezervari)
         elif cmd == '5':
-            pass
+            rezervari = handle_suma(rezervari)
         elif cmd == '6':
-            break
+            run_console(rezervari)
         else:
             print('Comanda invalida')
 

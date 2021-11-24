@@ -1,4 +1,5 @@
 from Domain.rezervare import create_rezervare, get_id, set_nume, set_clasa, set_pret, set_checkin_facut
+from Logic.validare import validare_rezervare
 
 def find_rezervare(rezervari, id):
     '''
@@ -33,12 +34,13 @@ def add_rezervare(rezervari, id, nume, clasa, pret, checkin_facut):
     :param id: string
     :param nume: string
     :param clasa: string
-    :param pret: float
+    :param pret: string
     :param checkin_facut: string
     :return:
     '''
+    id, nume, clasa, pret, checkin_facut = validare_rezervare(id, nume, clasa, pret, checkin_facut)
     rezervare = create_rezervare(id, nume, clasa, pret, checkin_facut)
-    rezervari.append(rezervare)
+    return rezervari + [rezervare]
 
 def delete_rezervare(rezervari, id):
     '''
@@ -47,9 +49,8 @@ def delete_rezervare(rezervari, id):
     :param id: string
     :return:
     '''
-    index = find_rezervare_index(rezervari, id)
-    if index != None:
-        rezervari.pop()
+    result_list = [rezervare for rezervare in rezervari if get_id(rezervare) != id]
+    return result_list
 
 def edit_rezervare(rezervari, id, nume, clasa, pret, checkin_facut):
     '''
@@ -62,6 +63,7 @@ def edit_rezervare(rezervari, id, nume, clasa, pret, checkin_facut):
     :param checkin_facut: string
     :return:
     '''
+    id, nume, clasa, pret, checkin_facut = validare_rezervare(id, nume, clasa, pret, checkin_facut)
     for rezervare in rezervari:
         if get_id(rezervare) == id:
             set_nume(rezervare, nume)
