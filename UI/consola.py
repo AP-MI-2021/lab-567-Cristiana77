@@ -1,6 +1,19 @@
+import sys
+
 from Domain.rezervare import to_str
 from Logic.crud import add_rezervare, delete_rezervare, edit_rezervare
-from Logic.operatiuni import sort_rezervari, compute_sum_prices_per_name
+from Logic.operatiuni import sort_rezervari, compute_sum_prices_per_name, clasa_superioara, ieftinire, find_max1, find_max2, find_max3
+from Logic.validare import validare_procent
+from Domain.aeroport import *
+from Logic.undo_redo import apply_redo, apply_undo
+
+def print_meniu_undo_redo():
+    print('''
+    MENIU -Undo/ Redo
+    1. Undo 
+    2. Redo
+    3. Inapoi
+    ''')
 
 def print_meniu():
     print('''
@@ -32,27 +45,28 @@ def print_operatiuni_meniu():
     6. Inapoi
     ''')
 
-def run_crud_ui(rezervari):
+def run_crud_ui(aeroport):
     '''
 
-    :param rezervari: Lista de rezervari
+    :param aeroport: dict
     :return:
     '''
 
-    def handle_show_all(rezervari):
+    def handle_show_all(aeroport):
         '''
         Afisare lista de rezervari din memorie
-        :param rezervari: Lista de rezervari
+        :param aeroport: dict
         :return:
         '''
+        rezervari = get_lista_curenta(aeroport)
         for rezervare in rezervari:
             print(to_str(rezervare))
 
 
-    def handle_add_rezervare_ui(rezervari):
+    def handle_add_rezervare_ui(aeroport):
         '''
         Adaugam o rezervare
-        :param rezervari: lista de rezervari
+        :param aeroport: dict
         :return:
         '''
         id = input('Dati id-ul rezervarii: ')
@@ -61,27 +75,36 @@ def run_crud_ui(rezervari):
         pret = input('Dati pretul: ')
         checkin_facut = input('Precizati daca a facut checkin: ')
         try:
-            rezervari = add_rezervare(rezervari, id, nume, clasa, pret, checkin_facut)
+            add_rezervare(aeroport, id, nume, clasa, pret, checkin_facut)
             print('Rezervarea a fost adaugata cu succes.')
-            return rezervari
+            return aeroport
         except ValueError as ve:
-            print(ve)
+            print('Au aparut erori: ', ve)
+        except:
+            print('Unknown error.')
+        return aeroport
 
-    def handle_delete_rezervare_ui(rezervari):
+    def handle_delete_rezervare_ui(aeroport):
         '''
         Sterge o rezervare
-        :param rezervari: lista de rezervari
+        :param aeroport: dict
         :return:
         '''
         id = input('Dati id-ul rezervarii: ')
-        rezervari = delete_rezervare(rezervari, id)
-        print('Rezervarea a fost stearsa cu succes.')
-        return rezervari
+        try:
+            delete_rezervare(aeroport, id)
+            print('Rezervarea a fost stearsa cu succes.')
+            return aeroport
+        except ValueError as ve:
+            print('Au aparut erori: ', ve)
+        except:
+            print('Unknown error.')
+        return aeroport
 
-    def handle_edit_rezervare_ui(rezervari):
+    def handle_edit_rezervare_ui(aeroport):
         '''
         Modificam o rezervare
-        :param rezervari: lista
+        :param aeroport: dict
         :return:
         '''
         id = input('Dati id-ul rezervarii: ')
@@ -90,99 +113,158 @@ def run_crud_ui(rezervari):
         pret = float(input('Dati pretul: '))
         checkin_facut = input('Precizati daca a facut checkin: ')
         try:
-            rezervari = edit_rezervare(rezervari, id, nume, clasa, pret, checkin_facut)
+            edit_rezervare(aeroport, id, nume, clasa, pret, checkin_facut)
             print('Rezervarea a fost modificata cu succes.')
-            return rezervari
+            return aeroport
         except ValueError as ve:
-            print(ve)
+            print('Au aparut erori: ', ve)
+        except:
+            print('Unknown error.')
+        return aeroport
 
     while True:
         print_crud_meniu()
         cmd = input("Comanda: ")
         if cmd == '1':
-            rezervari = handle_add_rezervare_ui(rezervari)
+            aeroport = handle_add_rezervare_ui(aeroport)
         elif cmd == '2':
-            rezervari = handle_delete_rezervare_ui(rezervari)
+            aeroport = handle_delete_rezervare_ui(aeroport)
         elif cmd == '3':
-            rezervari = handle_edit_rezervare_ui(rezervari)
+            aeroport = handle_edit_rezervare_ui(aeroport)
         elif cmd == '4':
-            handle_show_all(rezervari)
+            handle_show_all(aeroport)
         elif cmd == '5':
-            run_console(rezervari)
+            run_console(aeroport)
         else:
             print('Comanda invalida')
 
-def run_operatiuni_ui(rezervari):
+def run_operatiuni_ui(aeroport):
     '''
     Operatiuni pe lista
-    :param rezervari: lista de rezervari
+    :param aeroport: dict
     :return:
     '''
 
-    def handle_mutare(rezervari):
+    def handle_mutare(aeroport):
         '''
         Trecerea tuturor rezervărilor făcute pe un nume citit la o clasă superioară.
-        :param rezervari: lista de rezervari
+        :param aeroport: dict
         :return:
         '''
-    pass
+        nume = input('Dati numele a carui clasa vreti sa fie trecuta la una superioara: ')
+        aeroport = clasa_superioara(aeroport, nume)
+        print('Rezervarile au fost mutate la o clasa superioara cu succes.')
+        return aeroport
 
-    def handle_ordonare(rezervari):
+    def handle_ieftinire(aeroport):
+        '''
+        Ieftinirea tuturor rezervărilor la care s-a făcut checkin cu un procentaj citit.
+        :param aeroport: dict
+        :return:
+        '''
+        procentaj = input('Procentajul de ieftinire: ')
+        try:
+            procentaj = validare_procent(procentaj)
+            ieftinire(aeroport, procentaj)
+            print('Ieftinirea a fost facuta cu succes.')
+            print(aeroport)
+            return aeroport
+        except ValueError as ve:
+            print(ve)
+
+    def handle_maxim(aeroport):
+        '''
+        Determinarea prețului maxim pentru fiecare clasă.
+        :param aeroport: dict
+        :return:
+        '''
+        max1 = find_max1(aeroport)
+        max2 = find_max2(aeroport)
+        max3 = find_max3(aeroport)
+        print('Pretul maxim clasei economy este: ', max1)
+        print('Pretul maxim clasei economy plus este: ', max2)
+        print('Pretul maxim clasei business este: ', max3)
+
+    def handle_ordonare(aeroport):
         '''
         Ordonarea rezervărilor descrescător după preț.
-        :param rezervari: lista
+        :param aeroport: dict
         :return:
         '''
-        rezervari = sort_rezervari(rezervari)
+        sort_rezervari(aeroport)
         print('Rezervarile au fost ordonate cu succes.')
-        return rezervari
+        return aeroport
 
-    def handle_suma(rezervari):
+    def handle_suma(aeroport):
         '''
         Afișarea sumelor prețurilor pentru fiecare nume.
-        :param rezervari: lista
+        :param aeroport: dict
         :return:
         '''
-        print(compute_sum_prices_per_name(rezervari))
-
+        print(compute_sum_prices_per_name(aeroport))
 
     while True:
         print_operatiuni_meniu()
         cmd = input("Comanda: ")
         if cmd == '1':
-            rezervari = handle_mutare(rezervari)
+            aeroport = handle_mutare(aeroport)
         elif cmd == '2':
-            pass
+            aeroport = handle_ieftinire(aeroport)
         elif cmd == '3':
-            pass
+            aeroport = handle_maxim(aeroport)
         elif cmd == '4':
-            rezervari = handle_ordonare(rezervari)
+            aeroport = handle_ordonare(aeroport)
         elif cmd == '5':
-            rezervari = handle_suma(rezervari)
+            aeroport = handle_suma(aeroport)
         elif cmd == '6':
-            run_console(rezervari)
+            run_console(aeroport)
         else:
             print('Comanda invalida')
 
-def run_undo_redo_ui(rezervari):
-    pass
-
-def run_console(rezervari):
+def run_undo_redo_ui(aeroport):
     '''
 
-    :param rezervari: lista de rezervari
+    :param aeroport: dict
+    :return:
+    '''
+
+    def handle_undo(aeroport):
+        apply_undo(aeroport)
+        print('Undo facut cu succes.')
+
+    def handle_redo(aeroport):
+        apply_redo(aeroport)
+        print('Redo facut cu succes.')
+
+    while True:
+        print_meniu_undo_redo()
+        cmd = input("Comanda: ")
+        if cmd == '1':
+            handle_undo(aeroport)
+        elif cmd == '2':
+            handle_redo(aeroport)
+        elif cmd == '3':
+            run_console(aeroport)
+        else:
+            print('Comanda invalida')
+
+def run_console(aeroport):
+    '''
+
+    :param aeroport: dict
     :return:
     '''
     while True:
         print_meniu()
         cmd = input("Comanda: ")
         if cmd == '1':
-            run_crud_ui(rezervari)
+            run_crud_ui(aeroport)
         elif cmd == '2':
-            run_operatiuni_ui(rezervari)
+            run_operatiuni_ui(aeroport)
         elif cmd == '3':
-            run_undo_redo_ui(rezervari)
+            run_undo_redo_ui(aeroport)
         elif cmd == '4':
-            break
+            print('La revedere!')
+            sys.exit(0)
         else:
             print('Comanda invalida')

@@ -4,17 +4,17 @@ from Domain.rezervare import create_rezervare, get_id, get_nume, get_clasa, get_
 def test_add_rezervari():
     rezervari = []
 
-    rezervare_adaugata = create_rezervare('56b', 'Sarah', 'economy', '1000', 'da')
-    rezervari = add_rezervare(rezervari, '56b', 'Sarah', 'economy', '1000', 'da')
+    rezervare_adaugata = create_rezervare(56, 'Sarah', 'economy', 1000, 'da')
+    rezervari = add_rezervare(rezervari, 56, 'Sarah', 'economy', 1000, 'da')
     assert len(rezervari) == 1
-    assert get_id(rezervare_adaugata) == '56b'
+    assert get_id(rezervare_adaugata) == 56
     assert get_nume(rezervare_adaugata) == 'Sarah'
     assert get_clasa(rezervare_adaugata) == 'economy'
-    assert get_pret(rezervare_adaugata) == '1000'
+    assert get_pret(rezervare_adaugata) == 1000
     assert get_checkin_facut(rezervare_adaugata) == 'da'
 
-    rezervari = add_rezervare(rezervari, '123', 'John', 'business', '2000', 'nu')
-    create_rezervare('123', 'John', 'business', '2000', 'nu')
+    rezervari = add_rezervare(rezervari, 123, 'John', 'business', 2000, 'nu')
+    create_rezervare(123, 'John', 'business', 2000, 'nu')
     assert len(rezervari) == 2
 
 

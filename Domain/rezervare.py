@@ -6,7 +6,7 @@ def create_rezervare(id, nume, clasa, pret, checkin_facut):
     :param clasa: string: 'economy','economy plus',or 'business'
     :param pret: float
     :param checkin_facut: string: 'da' sau 'nu'
-    :return: Dict
+    :return: dict
     '''
     return {
         "id": id,
@@ -19,15 +19,15 @@ def create_rezervare(id, nume, clasa, pret, checkin_facut):
 def get_id(rezervare):
     '''
     Id-ul rezervarii
-    :param rezervare: Dict
+    :param rezervare: dict
     :return: id - string
     '''
     return rezervare['id']
 
 def set_id(rezervare, id):
     '''
-    Nouul id
-    :param rezervare: Dict
+    Noul id
+    :param rezervare: dict
     :param id: string
     :return:
     '''
@@ -36,7 +36,7 @@ def set_id(rezervare, id):
 def get_nume(rezervare):
     '''
     Numele pe care este facuta rezervarea
-    :param rezervare: Dict
+    :param rezervare: dict
     :return: nume - string
     '''
     return rezervare['nume']
@@ -44,7 +44,7 @@ def get_nume(rezervare):
 def set_nume(rezervare, nume):
     '''
     Noul nume
-    :param rezervare: Dict
+    :param rezervare: dict
     :param nume: string
     :return:
     '''
@@ -53,7 +53,7 @@ def set_nume(rezervare, nume):
 def get_clasa(rezervare):
     '''
     Clasa la care este facuta rezervarea
-    :param rezervare: Dict
+    :param rezervare: dict
     :return: clasa - string
     '''
     return rezervare['clasa']
@@ -61,7 +61,7 @@ def get_clasa(rezervare):
 def set_clasa(rezervare, clasa):
     '''
     Noua clasa
-    :param rezervare: Dict
+    :param rezervare: dict
     :param clasa: string
     :return:
     '''
@@ -70,7 +70,7 @@ def set_clasa(rezervare, clasa):
 def get_pret(rezervare):
     '''
     Pretul calatoriei
-    :param rezervare: Dict
+    :param rezervare: dict
     :return: pret - float
     '''
     return rezervare['pret']
@@ -78,7 +78,7 @@ def get_pret(rezervare):
 def set_pret(rezervare, pret):
     '''
     Noul pret
-    :param rezervare: Dict
+    :param rezervare: dict
     :param pret: float
     :return:
     '''
@@ -87,7 +87,7 @@ def set_pret(rezervare, pret):
 def get_checkin_facut(rezervare):
     '''
     Status checkin
-    :param rezervare: Dict
+    :param rezervare: dict
     :return: checkin_facut - string
     '''
     return rezervare['checkin_facut']
@@ -95,7 +95,7 @@ def get_checkin_facut(rezervare):
 def set_checkin_facut(rezervare, checkin_facut):
     '''
     Noul checkin_facut
-    :param rezervare: Dict
+    :param rezervare: dict
     :param checkin_facut: string
     :return:
     '''

@@ -1,11 +1,12 @@
 from Domain.rezervare import create_rezervare, get_id, set_nume, set_clasa, set_pret, set_checkin_facut
 from Logic.validare import validare_rezervare
+from Domain.aeroport import *
 
 def find_rezervare(rezervari, id):
     '''
     Find rezervare in rezervari with id
     If not found, we return None
-    :param rezervari: lista
+    :param rezervari: dict
     :param id: string
     :return:
     '''
@@ -18,7 +19,7 @@ def find_rezervare_index(rezervari, id):
     '''
     Find rezervari in rezervari with id
     If not found, we return None
-    :param rezervari: lista
+    :param rezervari: dict
     :param id: string
     :return:
     '''
@@ -27,10 +28,10 @@ def find_rezervare_index(rezervari, id):
             return i
     return None
 
-def add_rezervare(rezervari, id, nume, clasa, pret, checkin_facut):
+def add_rezervare(aeroport, id, nume, clasa, pret, checkin_facut):
     '''
     Adaugam in memorie, in lista de rezervari o rezervare formata din fieldurile: id, nume, clasa, pret, checkin_facut.
-    :param rezervari: lista de rezervari
+    :param aeroport: dict
     :param id: string
     :param nume: string
     :param clasa: string
@@ -38,24 +39,30 @@ def add_rezervare(rezervari, id, nume, clasa, pret, checkin_facut):
     :param checkin_facut: string
     :return:
     '''
+    adaugare_undo_clear_redo(aeroport)
+    rezervari = get_lista_curenta(aeroport)
     id, nume, clasa, pret, checkin_facut = validare_rezervare(id, nume, clasa, pret, checkin_facut)
+    if find_rezervare_index(rezervari, id) != None:
+        raise ValueError('Id duplicat.')
     rezervare = create_rezervare(id, nume, clasa, pret, checkin_facut)
     return rezervari + [rezervare]
 
-def delete_rezervare(rezervari, id):
+def delete_rezervare(aeroport, id):
     '''
     Stergem din memorie o rezervare cu ajutorul id-ului
-    :param rezervari: lista de rezervari
-    :param id: string
+    :param aeroport: dict
+    :param id: int
     :return:
     '''
+    adaugare_undo_clear_redo(aeroport)
+    rezervari = get_lista_curenta(aeroport)
     result_list = [rezervare for rezervare in rezervari if get_id(rezervare) != id]
     return result_list
 
-def edit_rezervare(rezervari, id, nume, clasa, pret, checkin_facut):
+def edit_rezervare(aeroport, id, nume, clasa, pret, checkin_facut):
     '''
     Modificarea in memorie a unei rezervari
-    :param rezervari: lista
+    :param aeroport: dict
     :param id: string
     :param nume: string
     :param clasa: string
@@ -63,7 +70,9 @@ def edit_rezervare(rezervari, id, nume, clasa, pret, checkin_facut):
     :param checkin_facut: string
     :return:
     '''
+    adaugare_undo_clear_redo(aeroport)
     id, nume, clasa, pret, checkin_facut = validare_rezervare(id, nume, clasa, pret, checkin_facut)
+    rezervari = get_lista_curenta(aeroport)
     for rezervare in rezervari:
         if get_id(rezervare) == id:
             set_nume(rezervare, nume)

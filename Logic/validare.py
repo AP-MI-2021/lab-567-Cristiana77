@@ -28,3 +28,23 @@ def validare_rezervare(id, nume, clasa, pret, checkin_facut):
         raise ValueError(errors)
 
     return id, nume, clasa, pret, checkin_facut
+
+def validare_procent(procentaj):
+    '''
+    Validare procent
+    :param procentaj: string
+    :return:
+    '''
+    errors = []
+    if procentaj == '':
+        errors.append('Procentul nu poate fi vid.')
+    try:
+        procentaj = float(procentaj)
+        if (procentaj < 0) or (procentaj > 100):
+            errors.append('Procentul trebuie sa fie cuprins intre 0 si 100.')
+    except ValueError as ve:
+        errors.append('Procentul trebuia sa fie numar real.')
+    if len(errors) != 0:
+        raise ValueError(errors)
+
+    return procentaj

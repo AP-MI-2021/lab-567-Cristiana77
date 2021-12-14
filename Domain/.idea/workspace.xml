@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="6ebfea87-e8fa-4862-addf-d5745db42141" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/aeroport.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Logic/undo_redo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Tests/test_undo_redo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rezervare.py" beforeDir="false" afterPath="$PROJECT_DIR$/rezervare.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Logic/crud.py" beforeDir="false" afterPath="$PROJECT_DIR$/../Logic/crud.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Logic/operatiuni.py" beforeDir="false" afterPath="$PROJECT_DIR$/../Logic/operatiuni.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Logic/validare.py" beforeDir="false" afterPath="$PROJECT_DIR$/../Logic/validare.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Tests/operatiuni_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/../Tests/operatiuni_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Tests/run_all_tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/../Tests/run_all_tests.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../UI/consola.py" beforeDir="false" afterPath="$PROJECT_DIR$/../UI/consola.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main.py" beforeDir="false" afterPath="$PROJECT_DIR$/../main.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="21pNCfXW8SKjLoOyGvCemhtwc9u" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6ebfea87-e8fa-4862-addf-d5745db42141" name="Changes" comment="" />
+      <created>1638633945088</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1638633945088</updated>
+      <workItem from="1638633948766" duration="33000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
