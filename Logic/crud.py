@@ -45,7 +45,7 @@ def add_rezervare(aeroport, id, nume, clasa, pret, checkin_facut):
     if find_rezervare_index(rezervari, id) != None:
         raise ValueError('Id duplicat.')
     rezervare = create_rezervare(id, nume, clasa, pret, checkin_facut)
-    return rezervari + [rezervare]
+    return set_lista_curenta(aeroport, rezervari + [rezervare])
 
 def delete_rezervare(aeroport, id):
     '''
@@ -56,8 +56,9 @@ def delete_rezervare(aeroport, id):
     '''
     adaugare_undo_clear_redo(aeroport)
     rezervari = get_lista_curenta(aeroport)
-    result_list = [rezervare for rezervare in rezervari if get_id(rezervare) != id]
-    return result_list
+    index = find_rezervare_index(rezervari, id)
+    if index != None:
+        rezervari.pop(index)
 
 def edit_rezervare(aeroport, id, nume, clasa, pret, checkin_facut):
     '''
